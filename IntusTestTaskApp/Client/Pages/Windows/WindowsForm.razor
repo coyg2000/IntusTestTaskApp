@@ -1,0 +1,72 @@
+﻿<EditForm Model="window" OnValidSubmit="OnValidSubmit">
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <div>
+            <InputText class="form-control" id="name" @bind-Value="@window.Name" />
+        </div>
+        <label for="name">Qunatity Of Windows</label>
+        <div>
+            <InputText class="form-control" id="name" @bind-Value="@window.QuantityOfWindows" />
+        </div>
+        <label for="name">Total Sub Elements</label>
+        <div>
+            <InputText class="form-control" id="name" @bind-Value="@window.TotalSubElements" />
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="form-group">
+            <button type="button" class="btn btn-secondary"
+                    @onclick="@(() => window.SubElements.Add(new SubElement()))">
+                Add SubElements
+            </button>
+        </div>
+
+        @for (var i = 0; i < window.SubElements.Count; i++)
+        {
+            var index = i;
+            var subElement = window.SubElements[i];
+
+            <h5>subElement @(i+1)</h5>
+
+            <div class="form-group">
+                <label>Type:</label>
+                <InputText class="form-control" id="type" @bind-Value="subElement.Type" />
+            </div>
+
+            <div class="form-group">
+                <label>Width:</label>
+                <InputText class="form-control" id="width" @bind-Value=" subElement.Width" />
+            </div>
+
+            <div class="form-group">
+                <label>Height:</label>
+                <InputText class="form-control" id="height" @bind-Value="subElement.Height" />
+            </div>
+
+
+
+
+            <button type="button" class="btn btn-danger"
+                    @onclick="@(() => window.SubElements.RemoveAt(index))">
+                Remove
+            </button>
+        }
+    </div>
+
+    <button class="btn btn-primary" type="submit">Send</button>
+    <button class="btn btn-secondary" type="button" @onclick="Clear">Clear</button>
+
+</EditForm>
+
+@code {
+    [Parameter] public Window window { get; set; }
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private void Clear()
+    {
+        window = new Window();
+    }
+}

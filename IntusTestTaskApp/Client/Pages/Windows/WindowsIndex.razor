@@ -1,0 +1,62 @@
+﻿@page "/windows"
+
+@inject HttpClient http
+
+<h3>Windows Index</h3>
+<div class="form-group">
+    <a class="btn btn-success" href="windows/create">New Window</a>
+</div>
+
+@if (Windows == null)
+{
+    <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+}
+else if (Windows.Count == 0)
+{
+    <text>There are no records to show</text>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>QuantityOfWindow</th>
+                <th>TotalSubElements</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var window in Windows)
+            {
+            <tr>
+                <td>
+                    <a class="btn btn-success" href="windows/edit/@window.Id">Edit</a>
+                </td>
+                <td>
+                    @window.Id
+                </td>
+                <td>
+                    @window.Name
+                </td>
+                <td>
+                    @window.QuantityOfWindows
+                </td>
+                <td>
+                    @window.TotalSubElements
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Window> Windows { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Windows = await http.GetFromJsonAsync<List<Window>>("api/windows");
+    }
+}

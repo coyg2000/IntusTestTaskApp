@@ -1,0 +1,31 @@
+﻿@page "/orders/create"
+
+@inject HttpClient http
+@inject NavigationManager navigationManager
+
+<h3>Orders Create</h3>
+
+<OrdersForm order="order" OnValidSubmit="OnValidSubmit" />
+
+@code {
+    Order order = new Order();
+
+    private async Task OnValidSubmit()
+    {
+        var response = await http.PostAsJsonAsync("api/orders", order);
+
+        var body = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Success
+            Console.WriteLine($"The id of the  is: {body}");
+            navigationManager.NavigateTo("orders");
+        }
+        else
+        {
+            // Not success
+            Console.WriteLine(body);
+        }
+    }
+}

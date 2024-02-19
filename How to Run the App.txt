@@ -1,0 +1,6 @@
+To run the app you should just do this:
+
+Provide your connection string in appsettings.json
+In Package Manager Console run add-miration initial
+In Package Manager Consol run update-database
+Run the app

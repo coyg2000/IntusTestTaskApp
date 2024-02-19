@@ -1,0 +1,58 @@
+﻿@page "/orders"
+
+@inject HttpClient http
+
+<h3>OrdersIndex</h3>
+<div class="form-group">
+    <a class="btn btn-success" href="orders/create">New Order</a>
+</div>
+
+@if (Orders == null)
+{
+    <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+}
+else if (Orders.Count == 0)
+{
+    <text>There are no records to show</text>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Orders)
+            {
+                <tr>
+                    <td>
+                        <a class="btn btn-success" href="orders/edit/@order.Id">Edit</a>
+                    </td>
+                    <td>
+                        @order.Id
+                    </td>
+                    <td>
+                        @order.Name
+                    </td>
+                    <td>
+                        @order.State
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Order> Orders { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Orders = await http.GetFromJsonAsync<List<Order>>("api/orders");
+    }
+}

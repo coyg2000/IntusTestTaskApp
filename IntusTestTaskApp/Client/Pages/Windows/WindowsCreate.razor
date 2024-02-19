@@ -1,0 +1,31 @@
+﻿@page "/windows/create"
+
+@inject HttpClient http
+@inject NavigationManager navigationManager
+
+<h3>Windows Create</h3>
+
+<WindowsForm window="window" OnValidSubmit="OnValidSubmit" />
+
+@code {
+    Window window = new Window();
+
+    private async Task OnValidSubmit()
+    {
+        var response = await http.PostAsJsonAsync("api/windows", window);
+
+        var body = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Success
+            Console.WriteLine($"The id of the  is: {body}");
+            navigationManager.NavigateTo("windows");
+        }
+        else
+        {
+            // Not success
+            Console.WriteLine(body);
+        }
+    }
+}

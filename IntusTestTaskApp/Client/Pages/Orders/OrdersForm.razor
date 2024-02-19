@@ -1,0 +1,65 @@
+﻿<EditForm Model="order" OnValidSubmit="OnValidSubmit">
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <div>
+            <InputText class="form-control" id="name" @bind-Value="@order.Name" />
+        </div>
+        <label for="name">State</label>
+        <div>
+            <InputText class="form-control" id="name" @bind-Value="@order.State" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="form-group">
+            <button type="button" class="btn btn-secondary"
+                    @onclick="@(() => order.Windows.Add(new Window()))">
+                Add Window
+            </button>
+        </div>
+
+        @for (var i = 0; i < order.Windows.Count; i++)
+        {
+            var index = i;
+            var window = order.Windows[i];
+
+            <h5>Window @(i+1)</h5>
+
+            <div class="form-group">
+                <label>Name:</label>
+                <InputText class="form-control" id="window"  @bind-Value="window.Name" />
+            </div>
+
+            <div class="form-group">
+                <label>Quantity:</label>
+                <InputText class="form-control" id="quantity"  @bind-Value=" window.QuantityOfWindows" />
+            </div>
+
+            <div class="form-group">
+                <label>Total Sub Elements:</label>
+                <InputText class="form-control" id="total"  @bind-Value="window.QuantityOfWindows" />
+            </div>
+
+
+            <button type="button" class="btn btn-danger"
+                    @onclick="@(() => order.Windows.RemoveAt(index))">
+                Remove
+            </button>
+        }
+    </div>
+
+    <button class="btn btn-primary" type="submit">Send</button>
+    <button class="btn btn-secondary" type="button" @onclick="Clear">Clear</button>
+
+</EditForm>
+
+@code {
+    [Parameter] public Order order { get; set; }
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private void Clear()
+    {
+        order = new Order();
+    }
+}
